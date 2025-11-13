@@ -1,1 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mental Health Prediction</title>
 
+  <style>
+    :root{
+      --bg:#eef6f9;
+      --card:#ffffff;
+      --accent:#4f9cf9;
+      --accent-2:#7be0c7;
+      --muted:#6b7280;
+      --success:#16a34a;
+      --danger:#ef4444;
+      --radius:14px;
+      --shadow: 0 8px 24px rgba(22,29,37,0.08);
+      --glass: linear-gradient(135deg, rgba(255,255,255,0.6), rgba(255,255,255,0.4));
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+
+    html,body{
+      height:100%;
+      margin:0;
+      background:
+        radial-gradient(1200px 400px at -10% 10%, rgba(127,176,255,0.10), transparent 12%),
+        radial-gradient(1000px 350px at 110% 90%, rgba(123,224,199,0.06), transparent 12%),
+        var(--bg);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      color:#0f1724;
+    }
+
+    .wrap{
+      min-height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:36px 20px;
+      box-sizing:border-box;
+    }
+
+    .card{
+      width:100%;
+      max-width:920px;
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:24px;
+      background:var(--card);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:26px;
+      align-items:start;
+      overflow:hidden;
+    }
+
+    /* left column - info */
+    .hero{
+      padding:18px 6px;
+    }
+    .brand {
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+    .logo {
+      width:56px;
+      height:56px;
+      border-radius:12px;
+      background: linear-gradient(135deg,var(--accent),var(--accent-2));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#fff;
+      font-weight:700;
+      font-size:22px;
+      box-shadow: 0 6px 18px rgba(79,156,249,0.18);
+    }
+    h1{
+      margin:12px 0 6px;
+      font-size:22px;
+      letter-spacing:-0.2px;
+    }
+    p.lead{
+      margin:0;
+      color:var(--muted);
+      line-height:1.5;
+      font-size:14.5px;
+    }
+
+    .tips{
+      margin-top:18px;
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .chip{
+      background:#f6fbff;
+      color:#0b1220;
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:13px;
+      border:1px solid rgba(79,156,249,0.08);
+    }
+
+    /* right column - form */
+    form{
+      padding:18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.4));
+      border-radius:12px;
+      box-shadow: 0 6px 20px rgba(12,18,28,0.04);
+    }
+    .field {
+      margin-bottom:12px;
+    }
+    label{
+      display:block;
+      font-size:13px;
+      color:#102030;
+      margin-bottom:6px;
+      font-weight:600;
+    }
+    input[type="number"],
+    select {
+      width:100%;
+      padding:10px 12px;
+      border-radius:10px;
+      border:1px solid #e6eef6;
+      background:#fbfeff;
+      font-size:14px;
+      outline:none;
+      box-sizing:border-box;
+    }
+    input[type="number"]:focus,
+    select:focus{
+      border-color:var(--accent);
+      box-shadow:0 6px 16px rgba(79,156,249,0.10);
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+
+    .btn {
+      display:inline-block;
+      width:100%;
+      padding:12px 14px;
+      border-radius:10px;
+      background: linear-gradient(90deg,var(--accent), #2f7ef7);
+      color:white;
+      border:none;
+      font-weight:700;
+      font-size:15px;
+      cursor:pointer;
+      margin-top:8px;
+      box-shadow: 0 8px 26px rgba(79,156,249,0.18);
+    }
+    .btn:active{ transform:translateY(1px) }
+
+    .result {
+      margin-top:14px;
+      padding:12px;
+      border-radius:10px;
+      font-weight:700;
+      font-size:15px;
+      text-align:center;
+    }
+    .result.good{ background:#ecfdf5; color:var(--success); border:1px solid rgba(16,185,129,0.12) }
+    .result.bad { background:#fff1f2; color:var(--danger); border:1px solid rgba(239,68,68,0.08) }
+
+    /* responsive */
+    @media (max-width:920px){
+      .card{ grid-template-columns: 1fr; padding:20px }
+      .hero{ order:2 }
+      form{ order:1 }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+
+      <!-- left: info -->
+      <div class="hero">
+        <div class="brand">
+          <div class="logo">MH</div>
+          <div>
+            <div style="font-size:13px;color:#687081">Mental Health Predictor</div>
+            <div style="font-weight:700;font-size:16px">Quick screening for workplace mental health</div>
+          </div>
+        </div>
+
+        <h1>Check risk quickly — friendly & private</h1>
+        <p class="lead">Fill the short form on the right. This is a screening tool (not a clinical diagnosis). Use results to guide next steps like seeking professional help or HR support.</p>
+
+        <div class="tips" aria-hidden="true">
+          <div class="chip">✅ Fast (8 inputs)</div>
+          <div class="chip">🔒 Private — no data stored by UI</div>
+          <div class="chip">📈 Shows model confidence</div>
+        </div>
+      </div>
+
+      <!-- right: form -->
+      <form action="/predict" method="post" novalidate>
+        <div class="row">
+          <div class="field">
+            <label for="age">Age</label>
+            <input id="age" name="age" type="number" min="15" max="100" placeholder="e.g. 29" required>
+          </div>
+
+          <div class="field">
+            <label for="gender">Gender</label>
+            <select id="gender" name="gender" required>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="family_history">Family history of mental illness</label>
+          <select id="family_history" name="family_history" required>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="benefits">Employer provides mental health benefits</label>
+            <select id="benefits" name="benefits" required>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="care_options">Access to care options</label>
+            <select id="care_options" name="care_options" required>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="anonymity">Can seek help anonymously?</label>
+            <select id="anonymity" name="anonymity" required>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="leave">Ease of taking leave</label>
+            <select id="leave" name="leave" required>
+              <option value="Very difficult">Very difficult</option>
+              <option value="Difficult">Difficult</option>
+              <option value="Somewhat easy">Somewhat easy</option>
+              <option value="Easy">Easy</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="work_interfere">How often does work affect mental health?</label>
+          <select id="work_interfere" name="work_interfere" required>
+            <option value="Never">Never</option>
+            <option value="Rarely">Rarely</option>
+            <option value="Sometimes">Sometimes</option>
+            <option value="Often">Often</option>
+          </select>
+        </div>
+
+        <button class="btn" type="submit">Predict</button>
+
+        {% if prediction_text %}
+          <div class="result {{ 'good' if 'unlikely' in prediction_text.lower() else 'bad' }}">
+            {{ prediction_text|safe }}
+          </div>
+        {% else %}
+          <div style="height:46px"></div>
+        {% endif %}
+      </form>
+    </div>
+  </div>
+</body>
+</html>
